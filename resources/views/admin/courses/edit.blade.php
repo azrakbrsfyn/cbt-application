@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div class="header flex flex-col gap-1 px-5 mt-5">
-                <h1 class="font-extrabold text-[30px] leading-[45px]">New Course</h1>
+                <h1 class="font-extrabold text-[30px] leading-[45px]">Edit Course</h1>
                 <p class="text-[#7F8190]">Provide high quality for best students</p>
             </div>
 
