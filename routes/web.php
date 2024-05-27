@@ -5,6 +5,7 @@ use App\Http\Controllers\CourseQuestionController;
 use App\Http\Controllers\CourseStudentController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentAnswerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
             ->name('learning.finished.course');
 
         // Menampilkan raport nilai perolehan siswa
-        Route::get('learning/rapport/{course}', [LearningController::class], 'learning_rapport')
+        Route::get('learning/rapport/{course}', [LearningController::class, 'learning_rapport'])
             ->middleware('role:student')
             ->name('learning.rapport.course');
 
@@ -78,7 +79,7 @@ Route::middleware('auth')->group(function () {
             ->name('learning.course');
 
         // Menyimpan jawaban dari pertanyaan
-        Route::post('/learning/{course}/{question}', [LearningController::class, 'store'])
+        Route::post('/learning/{course}/{question}', [StudentAnswerController::class, 'store'])
             ->middleware('role:student')
             ->name('learning.course.answer.store');
     });
