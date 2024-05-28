@@ -54,9 +54,9 @@ class RolePermissionSeeder extends Seeder
 
         // Membuat akun super admin secara default
         $user = User::create([
-            'name' => 'Azriel',
-            'email' => 'azrielakbarsofyan@gmail.com',
-            'password' => bcrypt('allahtuhanku1')
+            'name' => 'Teacher 1',
+            'email' => 'teacher1@teacher.com',
+            'password' => bcrypt('hello_cbt123')
         ]);
 
         $user->assignRole($teacherRole);
