@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseQuestion;
 use App\Models\CourseStudent;
+use App\Models\StudentAnswer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -14,9 +17,34 @@ class CourseStudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Course $course)
     {
-        //
+
+        $students = $course->students()->orderBy('id', 'desc')->get();
+        $questions = $course->questions()->orderBy('id', 'desc')->get();
+        $totalQuestion = $questions->count();
+
+        foreach ($students as $student) {
+            $studentAnswers = StudentAnswer::whereHas('question', function ($query) use ($course) {
+                $query->where('course_id', $course->id);
+            })->where('user_id', $student->id)->get();
+
+            $answerCount = $studentAnswers->count();
+            $correctAnswersCount = $studentAnswers->where('answer', 'correct')->count();
+
+            if ($answerCount == 0) {
+                $student->status = 'Not Started Yet';
+            } elseif ($correctAnswersCount < $totalQuestion) {
+                $student->status = "Not Passed";
+            } elseif ($correctAnswersCount == $totalQuestion) {
+                $student->status = 'Passed';
+            }
+        }
+
+        return view("admin.students.index", [
+            'course' => $course,
+            'students' => $students,
+        ]);
     }
 
     /**

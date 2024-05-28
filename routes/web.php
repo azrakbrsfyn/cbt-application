@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
             ->middleware('role:teacher')
             ->name('course.course_students.create');
 
+        // Menambahkan siswa di suatu kelas
         Route::post('/course/students/create/save/{course}', [CourseStudentController::class, 'store'])
             ->middleware('role:teacher')
             ->name('course.course_students.store');
